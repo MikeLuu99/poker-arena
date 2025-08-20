@@ -30,7 +30,7 @@ func NewGame() *Game {
 	for i, model := range models_list {
 		players[i] = models.Player{
 			Name:  model,
-			Chips: 100,
+			Chips: 20,
 			Cards: []string{},
 			Model: model,
 		}
