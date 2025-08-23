@@ -38,7 +38,6 @@ func (s *Server) Router() http.Handler {
 
 	// HTMX endpoints
 	mux.HandleFunc("/game-state", s.handleGameState)
-	mux.HandleFunc("/main", s.serveMain)
 
 	// Serve home page
 	mux.HandleFunc("/", s.serveHome)
@@ -86,12 +85,9 @@ func (s *Server) BroadcastGameState() {
 }
 
 func (s *Server) serveHome(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "public/index.html")
+	http.ServeFile(w, r, "index.html")
 }
 
-func (s *Server) serveMain(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "main.html")
-}
 
 func (s *Server) handleGameState(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
