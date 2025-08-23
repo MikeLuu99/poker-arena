@@ -16,6 +16,8 @@ A comprehensive AI poker tournament system where multiple AI models compete in T
 - **OpenAI GPT OSS 120B**: Large-scale language model
 - **Anthropic Claude 3.5 Haiku**: Fast and strategic AI player
 
+*Note: You can use OpenRouter API to access different models for testing and comparison. Simply use your OpenRouter API key and specify model names in the format expected by OpenRouter.*
+
 ### Advanced Analytics
 - **CSV Export**: Comprehensive game data and tournament statistics
 - **Player Rankings**: Detailed performance metrics and win rates
@@ -73,7 +75,7 @@ poker-arena/
 ### Prerequisites
 
 - Go 1.24.2 or higher
-- AI API keys from supported providers (OpenAI, Google, Anthropic)
+- AI API keys from supported providers (OpenAI, Google, Anthropic, or OpenRouter for testing multiple models)
 
 ### Installation
 
@@ -94,6 +96,12 @@ poker-arena/
    OPENAI_API_KEY=your_openai_key
    GOOGLE_API_KEY=your_google_key
    ANTHROPIC_API_KEY=your_anthropic_key
+
+   # Alternative: Use OpenRouter for testing different models
+   # OPENAI_API_KEY=your_openrouter_key  # Use OpenRouter key for all OpenAI models
+   # GOOGLE_API_KEY=your_openrouter_key  # Use OpenRouter key for Google models
+   # ANTHROPIC_API_KEY=your_openrouter_key  # Use OpenRouter key for Anthropic models
+
    PORT=3000
    ```
 
@@ -138,10 +146,19 @@ go run cmd/poker-arena/main.go -g 25 -o ai_poker_analysis.csv --no-server --verb
 
 | Variable | Description | Required |
 |----------|-------------|----------|
-| `OPENAI_API_KEY` | OpenAI API key for GPT models | Yes |
-| `GOOGLE_API_KEY` | Google API key for Gemini | Yes |
-| `ANTHROPIC_API_KEY` | Anthropic API key for Claude | Yes |
+| `OPENAI_API_KEY` | OpenAI API key for GPT models (or OpenRouter key) | Yes |
+| `GOOGLE_API_KEY` | Google API key for Gemini (or OpenRouter key) | Yes |
+| `ANTHROPIC_API_KEY` | Anthropic API key for Claude (or OpenRouter key) | Yes |
 | `PORT` | Web server port (overridden by --port flag) | No |
+
+### Testing with OpenRouter
+
+OpenRouter provides access to multiple AI models through a single API key, making it ideal for testing and comparing different models:
+
+1. **Sign up for OpenRouter**: Visit [openrouter.ai](https://openrouter.ai) and get your API key
+2. **Use OpenRouter key**: Set all three API keys to your OpenRouter key in the `.env` file
+3. **Model compatibility**: The current model names work with OpenRouter's API format
+4. **Cost-effective testing**: OpenRouter often provides competitive pricing for model testing
 
 ## How It Works
 
@@ -258,6 +275,7 @@ The project follows Go best practices with clean, modular architecture:
 - **Model Comparison**: Benchmark different AI models in strategic game scenarios
 - **Strategy Analysis**: Study decision-making patterns and reasoning chains
 - **Performance Metrics**: Quantitative analysis of AI poker capabilities
+- **OpenRouter Testing**: Easy access to multiple models for comprehensive comparative analysis
 
 ### Data Analysis
 - **Statistical Modeling**: Large-scale tournament data for machine learning
@@ -321,20 +339,3 @@ go run cmd/poker-arena/main.go -g 100 -v --no-server
 - **Optimal Concurrency**: 5-10 parallel games work well for most systems
 - **CSV File Size**: Large tournaments (1000+ games) generate substantial data files
 - **API Costs**: Monitor usage across AI providers as costs can accumulate quickly
-
-## License
-
-This project is open source. Please check the repository for specific license terms.
-
-## Acknowledgments
-
-- Built with Go for high-performance concurrent execution
-- Uses HTMX for seamless real-time web interface updates
-- Integrates with leading AI providers for authentic strategic gameplay
-- Inspired by the fascinating intersection of artificial intelligence and game theory
-
----
-
-**Ready to watch AI models battle it out at the poker table?** 
-
-Start with a single game to see the action, then scale up to massive parallel tournaments for comprehensive AI analysis!
