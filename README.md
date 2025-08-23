@@ -2,6 +2,8 @@
 
 A comprehensive AI poker tournament system where multiple AI models compete in Texas Hold'em poker. Run single games with a live web interface or execute large-scale parallel tournaments with detailed statistical analysis.
 
+![Poker Arena Screenshot](public/screenshot.png)
+
 ## Features
 
 ### Game Modes
