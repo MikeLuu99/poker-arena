@@ -28,3 +28,12 @@ type GameState struct {
 	EliminatedPlayers []string       `json:"eliminatedPlayers"`
 	GameEnded         bool           `json:"gameEnded"`
 }
+
+type GameResult struct {
+	Winner        Player   `json:"winner"`
+	TotalHands    int      `json:"totalHands"`
+	AllPlayers    []Player `json:"allPlayers"`
+	Eliminated    []string `json:"eliminated"`
+	FinalChips    int      `json:"finalChips"`
+	GameDuration  string   `json:"gameDuration"`
+}

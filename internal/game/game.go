@@ -12,8 +12,10 @@ import (
 )
 
 type Game struct {
-	State    *models.GameState
-	stopChan chan bool
+	State     *models.GameState
+	stopChan  chan bool
+	result    *models.GameResult
+	startTime time.Time
 }
 
 var models_list = []string{
@@ -59,26 +61,33 @@ func NewGame() *Game {
 	}
 
 	return &Game{
-		State:    gameState,
-		stopChan: make(chan bool),
+		State:     gameState,
+		stopChan:  make(chan bool),
+		result:    nil,
+		startTime: time.Now(),
 	}
 }
 
-func (g *Game) Start() {
+func (g *Game) Start() *models.GameResult {
 	for !g.State.GameEnded {
 		select {
 		case <-g.stopChan:
-			return
+			return nil
 		default:
 			g.advanceGame()
 			time.Sleep(2 * time.Second)
 		}
 	}
 	log.Println("🏆 Tournament has ended! Game loop stopped.")
+	return g.result
 }
 
 func (g *Game) Stop() {
 	close(g.stopChan)
+}
+
+func (g *Game) GetResult() *models.GameResult {
+	return g.result
 }
 
 func (g *Game) addToLog(message string) {
@@ -152,8 +161,21 @@ func (g *Game) checkForTournamentEnd() bool {
 	if len(activePlayers) == 1 {
 		g.State.GameEnded = true
 		winner := activePlayers[0]
+		
+		// Create game result
+		duration := time.Since(g.startTime)
+		g.result = &models.GameResult{
+			Winner:       winner,
+			TotalHands:   g.State.HandNumber,
+			AllPlayers:   g.State.Players,
+			Eliminated:   g.State.EliminatedPlayers,
+			FinalChips:   winner.Chips,
+			GameDuration: duration.String(),
+		}
+		
 		g.addToLog(fmt.Sprintf("🏆 TOURNAMENT WINNER: %s wins with $%d! 🏆", winner.Name, winner.Chips))
-		log.Printf("🏆 Tournament ended! Winner: %s with $%d", winner.Name, winner.Chips)
+		log.Printf("🏆 Tournament ended! Winner: %s with $%d in %d hands (Duration: %v)", 
+			winner.Name, winner.Chips, g.State.HandNumber, duration)
 		return true
 	}
 

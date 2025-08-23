@@ -72,6 +72,18 @@ func parseCard(cardString string) Card {
 }
 
 func NewPokerHand(cardStrings []string) *PokerHand {
+	// Validate that we have at least 5 cards for proper poker evaluation
+	if len(cardStrings) < 5 {
+		// For now, just pad with high cards to avoid crashes
+		// In a real game, this shouldn't happen
+		paddedCards := make([]string, len(cardStrings))
+		copy(paddedCards, cardStrings)
+		for len(paddedCards) < 5 {
+			paddedCards = append(paddedCards, "2♠") // Add low cards as padding
+		}
+		cardStrings = paddedCards
+	}
+
 	ph := &PokerHand{
 		CardStrings: cardStrings,
 		Cards:       make([]Card, len(cardStrings)),
@@ -144,6 +156,11 @@ func (ph *PokerHand) hasStraight() bool {
 		return values[i] > values[j]
 	})
 
+	// Need at least 5 unique values for a straight
+	if len(values) < 5 {
+		return false
+	}
+
 	// Handle Ace-low straight (A,2,3,4,5)
 	if len(values) > 0 && values[0] == 14 && len(values) > 1 && values[1] == 5 {
 		// Remove ace from front and add as 1 at the end
@@ -151,13 +168,20 @@ func (ph *PokerHand) hasStraight() bool {
 		values = append(values, 1)
 	}
 
-	// Check if consecutive
-	for i := 0; i < len(values)-1; i++ {
-		if values[i]-values[i+1] != 1 {
-			return false
+	// Check if we have any 5-card consecutive sequence
+	for start := 0; start <= len(values)-5; start++ {
+		isConsecutive := true
+		for i := 0; i < 4; i++ {
+			if values[start+i]-values[start+i+1] != 1 {
+				isConsecutive = false
+				break
+			}
+		}
+		if isConsecutive {
+			return true
 		}
 	}
-	return true
+	return false
 }
 
 func (ph *PokerHand) evaluateHand() HandScore {
@@ -173,8 +197,8 @@ func (ph *PokerHand) evaluateHand() HandScore {
 	isFlush := ph.hasFlush()
 	isStraight := ph.hasStraight()
 
-	// Royal Flush
-	if isFlush && isStraight && ph.SortedValues[0] == 14 && ph.SortedValues[4] == 10 {
+	// Royal Flush (need at least 5 cards)
+	if isFlush && isStraight && len(ph.SortedValues) >= 5 && ph.SortedValues[0] == 14 && ph.SortedValues[4] == 10 {
 		return HandScore{Rank: HAND_RANKINGS["ROYAL_FLUSH"], Value: ph.SortedValues}
 	}
 

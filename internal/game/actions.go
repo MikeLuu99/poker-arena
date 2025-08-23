@@ -253,24 +253,45 @@ func (g *Game) endHand() {
 		g.addToLog(fmt.Sprintf("%s wins pot of $%d (all players folded, awarded to big blind)", winner.Name, g.State.Pot))
 	} else {
 		// Multiple players remain, compare hands
-		hands := make([][]string, len(activePlayers))
-		for i, player := range activePlayers {
-			hands[i] = append(player.Cards, g.State.CommunityCards...)
-		}
-
-		winningHands := poker.CompareHands(hands)
-		if len(winningHands) > 0 {
-			winningHand := winningHands[0]
-
-			// Find the winner by matching the exact hand
-			winningCards := strings.Join(winningHand.CardStrings, "")
-			for i := range g.State.Players {
-				if !contains(g.State.FoldedPlayers, g.State.Players[i].Name) {
-					playerCards := strings.Join(append(g.State.Players[i].Cards, g.State.CommunityCards...), "")
-					if playerCards == winningCards {
-						g.State.Players[i].Chips += g.State.Pot
-						g.addToLog(fmt.Sprintf("%s wins pot of $%d with %s", g.State.Players[i].Name, g.State.Pot, winningHand.GetHandName()))
+		// Only compare hands if we have all 5 community cards
+		if len(g.State.CommunityCards) < 5 {
+			g.addToLog(fmt.Sprintf("Hand ended early with %d community cards - pot split among remaining players", len(g.State.CommunityCards)))
+			// Split pot equally among remaining players
+			potPerPlayer := g.State.Pot / len(activePlayers)
+			remainder := g.State.Pot % len(activePlayers)
+			for i, player := range activePlayers {
+				for j := range g.State.Players {
+					if g.State.Players[j].Name == player.Name {
+						share := potPerPlayer
+						if i < remainder {
+							share++ // Distribute remainder
+						}
+						g.State.Players[j].Chips += share
+						g.addToLog(fmt.Sprintf("%s receives $%d from split pot", player.Name, share))
 						break
+					}
+				}
+			}
+		} else {
+			hands := make([][]string, len(activePlayers))
+			for i, player := range activePlayers {
+				hands[i] = append(player.Cards, g.State.CommunityCards...)
+			}
+
+			winningHands := poker.CompareHands(hands)
+			if len(winningHands) > 0 {
+				winningHand := winningHands[0]
+
+				// Find the winner by matching the exact hand
+				winningCards := strings.Join(winningHand.CardStrings, "")
+				for i := range g.State.Players {
+					if !contains(g.State.FoldedPlayers, g.State.Players[i].Name) {
+						playerCards := strings.Join(append(g.State.Players[i].Cards, g.State.CommunityCards...), "")
+						if playerCards == winningCards {
+							g.State.Players[i].Chips += g.State.Pot
+							g.addToLog(fmt.Sprintf("%s wins pot of $%d with %s", g.State.Players[i].Name, g.State.Pot, winningHand.GetHandName()))
+							break
+						}
 					}
 				}
 			}

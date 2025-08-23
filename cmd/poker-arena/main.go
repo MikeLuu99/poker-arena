@@ -6,11 +6,13 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
 	"github.com/MikeLuu99/poker-arena/internal/game"
 	"github.com/MikeLuu99/poker-arena/internal/server"
+	"github.com/MikeLuu99/poker-arena/pkg/models"
 	"github.com/joho/godotenv"
 )
 
@@ -27,8 +29,14 @@ func main() {
 	// Initialize server
 	s := server.NewServer(g)
 
+	// Channel to receive game result
+	gameResultChan := make(chan *models.GameResult, 1)
+
 	// Start game loop in a goroutine
-	go g.Start()
+	go func() {
+		result := g.Start()
+		gameResultChan <- result
+	}()
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -52,12 +60,25 @@ func main() {
 		}
 	}()
 
-	// Wait for interrupt signal
-	<-stop
-	log.Println("Shutting down server...")
-
-	// Stop game
-	g.Stop()
+	// Wait for either game completion or interrupt signal
+	select {
+	case result := <-gameResultChan:
+		if result != nil {
+			log.Println("\n" + strings.Repeat("=", 60))
+			log.Println("🏆 POKER TOURNAMENT COMPLETED! 🏆")
+			log.Println(strings.Repeat("=", 60))
+			log.Printf("Winner: %s", result.Winner.Name)
+			log.Printf("Final Chips: $%d", result.FinalChips)
+			log.Printf("Total Hands: %d", result.TotalHands)
+			log.Printf("Game Duration: %s", result.GameDuration)
+			log.Printf("Eliminated Players: %v", result.Eliminated)
+			log.Println(strings.Repeat("=", 60))
+		}
+		log.Println("Game completed. Shutting down server...")
+	case <-stop:
+		log.Println("Interrupt received. Shutting down server...")
+		g.Stop()
+	}
 
 	// Create a context with timeout for graceful shutdown
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

@@ -9,8 +9,8 @@
                 max-width: 1400px;
                 margin: 0 auto;
                 padding: 20px;
-                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-                color: #ffffff;
+                background: #ffffff;
+                color: #333333;
                 min-height: 100vh;
             }
 
@@ -74,19 +74,11 @@
             .game-main {
                 position: relative;
                 aspect-ratio: 4/3;
-                background: radial-gradient(
-                    ellipse at center,
-                    #0f5132 0%,
-                    #198754 50%,
-                    #0f5132 100%
-                );
-                border-radius: 200px;
-                box-shadow:
-                    0 8px 32px rgba(0, 0, 0, 0.4),
-                    inset 0 2px 4px rgba(255, 255, 255, 0.1);
-                border: 20px solid #8b4513;
+                background: #f8f9fa;
+                border-radius: 20px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                border: 1px solid #e9ecef;
                 margin: 100px 40px;
-                backdrop-filter: blur(10px);
             }
 
             .table-center {
@@ -95,12 +87,12 @@
                 left: 50%;
                 transform: translate(-50%, -50%);
                 text-align: center;
-                background: rgba(0, 0, 0, 0.3);
+                background: #ffffff;
                 padding: 25px;
-                border-radius: 100px;
+                border-radius: 15px;
                 width: 320px;
-                backdrop-filter: blur(5px);
-                border: 2px solid rgba(255, 255, 255, 0.1);
+                border: 1px solid #dee2e6;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             }
 
             .community-cards {
@@ -109,10 +101,9 @@
 
             .pot-amount {
                 font-size: 1.8em;
-                color: #ffd700;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-                font-weight: bold;
-                letter-spacing: 1px;
+                color: #28a745;
+                font-weight: 600;
+                letter-spacing: 0.5px;
             }
 
             .players-circle {
@@ -123,108 +114,62 @@
 
             .player-card {
                 position: absolute;
-                background: linear-gradient(
-                    145deg,
-                    rgba(255, 255, 255, 0.95),
-                    rgba(240, 240, 240, 0.9)
-                );
+                background: #ffffff;
                 padding: 18px;
-                border-radius: 12px;
-                box-shadow:
-                    0 8px 25px rgba(0, 0, 0, 0.3),
-                    inset 0 1px 3px rgba(255, 255, 255, 0.5);
+                border-radius: 10px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
                 width: 220px;
                 transform: translate(-50%, -50%);
                 transition: all 0.3s ease;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                backdrop-filter: blur(10px);
+                border: 1px solid #e9ecef;
                 color: #333;
             }
 
             .player-card:hover {
-                transform: translate(-50%, -50%) scale(1.05);
-                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
+                transform: translate(-50%, -50%) scale(1.02);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
 
             .player-card.active {
-                border: 3px solid #ffd700;
-                background: linear-gradient(
-                    145deg,
-                    rgba(255, 255, 255, 1),
-                    rgba(255, 248, 220, 0.95)
-                );
-                box-shadow:
-                    0 0 20px rgba(255, 215, 0, 0.5),
-                    0 8px 25px rgba(0, 0, 0, 0.3);
-                animation: pulse 2s infinite;
+                border: 2px solid #007bff;
+                background: #f8f9fa;
+                box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
             }
 
-            @keyframes pulse {
-                0% {
-                    box-shadow:
-                        0 0 20px rgba(255, 215, 0, 0.5),
-                        0 8px 25px rgba(0, 0, 0, 0.3);
-                }
-                50% {
-                    box-shadow:
-                        0 0 30px rgba(255, 215, 0, 0.8),
-                        0 8px 25px rgba(0, 0, 0, 0.3);
-                }
-                100% {
-                    box-shadow:
-                        0 0 20px rgba(255, 215, 0, 0.5),
-                        0 8px 25px rgba(0, 0, 0, 0.3);
-                }
-            }
 
             .player-bet {
                 position: absolute;
-                color: #ffd700;
-                background: linear-gradient(
-                    135deg,
-                    rgba(0, 0, 0, 0.8),
-                    rgba(20, 20, 20, 0.9)
-                );
-                padding: 8px 15px;
-                border-radius: 20px;
-                font-weight: bold;
+                color: #007bff;
+                background: #ffffff;
+                padding: 6px 12px;
+                border-radius: 15px;
+                font-weight: 600;
                 transform: translate(-50%, -50%);
-                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
-                border: 2px solid rgba(255, 215, 0, 0.3);
-                font-size: 0.9em;
-                letter-spacing: 1px;
-                animation: betGlow 3s ease-in-out infinite alternate;
+                border: 1px solid #dee2e6;
+                font-size: 0.85em;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             }
 
-            @keyframes betGlow {
-                from {
-                    border-color: rgba(255, 215, 0, 0.3);
-                }
-                to {
-                    border-color: rgba(255, 215, 0, 0.6);
-                }
-            }
 
             .card {
                 display: inline-block;
                 width: 45px;
                 height: 65px;
-                border: 2px solid #333;
-                border-radius: 8px;
+                border: 1px solid #dee2e6;
+                border-radius: 6px;
                 margin: 0 6px;
                 text-align: center;
                 line-height: 65px;
-                background: linear-gradient(145deg, #ffffff, #f8f8f8);
-                box-shadow:
-                    0 4px 8px rgba(0, 0, 0, 0.3),
-                    inset 0 1px 2px rgba(255, 255, 255, 0.8);
-                font-weight: bold;
+                background: #ffffff;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                font-weight: 600;
                 font-size: 12px;
                 transition: transform 0.2s ease;
             }
 
             .card:hover {
-                transform: translateY(-2px) scale(1.05);
+                transform: translateY(-1px);
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
             }
 
             .card.red {
@@ -237,96 +182,83 @@
 
             .game-info {
                 text-align: center;
-                font-size: 1.3em;
-                background: linear-gradient(
-                    135deg,
-                    rgba(255, 255, 255, 0.95),
-                    rgba(240, 240, 240, 0.9)
-                );
-                padding: 25px;
-                border-radius: 15px;
-                box-shadow:
-                    0 8px 25px rgba(0, 0, 0, 0.3),
-                    inset 0 1px 3px rgba(255, 255, 255, 0.5);
+                font-size: 1.1em;
+                background: #ffffff;
+                padding: 20px;
+                border-radius: 10px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
                 position: absolute;
-                top: -120px;
+                top: -100px;
                 left: 0;
                 right: 0;
                 color: #333;
-                font-weight: 600;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                backdrop-filter: blur(10px);
+                font-weight: 500;
+                border: 1px solid #e9ecef;
             }
 
             .game-log {
-                background: linear-gradient(
-                    145deg,
-                    rgba(255, 255, 255, 0.95),
-                    rgba(245, 245, 245, 0.9)
-                );
+                background: #ffffff;
                 padding: 25px;
-                border-radius: 15px;
-                box-shadow:
-                    0 8px 25px rgba(0, 0, 0, 0.3),
-                    inset 0 1px 3px rgba(255, 255, 255, 0.5);
+                border-radius: 10px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
                 height: 100%;
                 margin-top: 100px;
-                border: 1px solid rgba(255, 255, 255, 0.3);
-                backdrop-filter: blur(10px);
+                border: 1px solid #e9ecef;
             }
 
             .game-log h2 {
                 color: #333;
                 margin-top: 0;
-                font-size: 1.4em;
+                font-size: 1.3em;
                 text-align: center;
                 margin-bottom: 20px;
                 padding-bottom: 10px;
-                border-bottom: 2px solid rgba(51, 51, 51, 0.1);
+                border-bottom: 1px solid #e9ecef;
+                font-weight: 500;
             }
 
             .log-entries {
                 height: 600px;
                 overflow-y: auto;
-                font-family: "Consolas", "Monaco", "Courier New", monospace;
-                font-size: 0.95em;
-                line-height: 1.6;
-                background: rgba(0, 0, 0, 0.02);
-                border-radius: 8px;
+                font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                font-size: 0.9em;
+                line-height: 1.5;
+                background: #f8f9fa;
+                border-radius: 6px;
                 padding: 15px;
-                border: 1px solid rgba(0, 0, 0, 0.05);
+                border: 1px solid #e9ecef;
             }
 
             .log-entries::-webkit-scrollbar {
-                width: 8px;
+                width: 6px;
             }
 
             .log-entries::-webkit-scrollbar-track {
-                background: rgba(0, 0, 0, 0.05);
-                border-radius: 4px;
+                background: #f8f9fa;
+                border-radius: 3px;
             }
 
             .log-entries::-webkit-scrollbar-thumb {
-                background: rgba(0, 0, 0, 0.2);
-                border-radius: 4px;
+                background: #dee2e6;
+                border-radius: 3px;
             }
 
             .log-entries::-webkit-scrollbar-thumb:hover {
-                background: rgba(0, 0, 0, 0.3);
+                background: #adb5bd;
             }
 
             .log-entry {
-                padding: 8px 0;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-                color: #333;
+                padding: 6px 0;
+                border-bottom: 1px solid #e9ecef;
+                color: #495057;
                 transition: background-color 0.2s ease;
             }
 
             .log-entry:hover {
-                background-color: rgba(0, 0, 0, 0.03);
-                border-radius: 4px;
-                margin: 0 -5px;
-                padding: 8px 5px;
+                background-color: #ffffff;
+                border-radius: 3px;
+                margin: 0 -8px;
+                padding: 6px 8px;
             }
 
             .log-entry:last-child {
@@ -338,11 +270,10 @@
         <h1
             style="
                 text-align: center;
-                color: #ffd700;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                color: #333;
                 font-size: 2.5em;
                 margin-bottom: 30px;
-                letter-spacing: 2px;
+                font-weight: 600;
             "
         >
             Poker Arena
@@ -397,16 +328,16 @@
             <a
                 href="https://github.com/MikeLuu99/poker-arena"
                 style="
-                    color: #ffd700;
+                    color: #007bff;
                     text-decoration: none;
-                    font-size: 1.1em;
-                    padding: 10px 20px;
-                    border: 2px solid rgba(255, 215, 0, 0.3);
-                    border-radius: 25px;
+                    font-size: 1em;
+                    padding: 8px 16px;
+                    border: 1px solid #007bff;
+                    border-radius: 6px;
                     transition: all 0.3s ease;
                 "
-                onmouseover="this.style.backgroundColor='rgba(255, 215, 0, 0.1)'; this.style.borderColor='rgba(255, 215, 0, 0.6)';"
-                onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='rgba(255, 215, 0, 0.3)';"
+                onmouseover="this.style.backgroundColor='#007bff'; this.style.color='#fff';"
+                onmouseout="this.style.backgroundColor='transparent'; this.style.color='#007bff';"
                 >GitHub Source</a
             >
         </p>
