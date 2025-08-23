@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type Player struct {
 	Name  string   `json:"name"`
 	Chips int      `json:"chips"`
@@ -29,11 +31,21 @@ type GameState struct {
 	GameEnded         bool           `json:"gameEnded"`
 }
 
+type PlayerRanking struct {
+	Player   Player `json:"player"`
+	Rank     int    `json:"rank"`     // 1st, 2nd, 3rd, 4th place
+	Position string `json:"position"` // "Winner", "Runner-up", "3rd Place", "4th Place"
+}
+
 type GameResult struct {
-	Winner        Player   `json:"winner"`
-	TotalHands    int      `json:"totalHands"`
-	AllPlayers    []Player `json:"allPlayers"`
-	Eliminated    []string `json:"eliminated"`
-	FinalChips    int      `json:"finalChips"`
-	GameDuration  string   `json:"gameDuration"`
+	GameID        int             `json:"gameId"`
+	Winner        Player          `json:"winner"`
+	TotalHands    int             `json:"totalHands"`
+	AllPlayers    []Player        `json:"allPlayers"`
+	Eliminated    []string        `json:"eliminated"`
+	FinalChips    int             `json:"finalChips"`
+	GameDuration  string          `json:"gameDuration"`
+	StartTime     time.Time       `json:"startTime"`
+	EndTime       time.Time       `json:"endTime"`
+	PlayerRankings []PlayerRanking `json:"playerRankings"`
 }

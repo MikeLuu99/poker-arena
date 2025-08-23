@@ -12,6 +12,7 @@ import (
 )
 
 type Game struct {
+	ID        int
 	State     *models.GameState
 	stopChan  chan bool
 	result    *models.GameResult
@@ -28,6 +29,10 @@ var models_list = []string{
 var initialTotalChips *int
 
 func NewGame() *Game {
+	return NewGameWithID(1)
+}
+
+func NewGameWithID(gameID int) *Game {
 	players := make([]models.Player, len(models_list))
 	for i, model := range models_list {
 		players[i] = models.Player{
@@ -61,6 +66,7 @@ func NewGame() *Game {
 	}
 
 	return &Game{
+		ID:        gameID,
 		State:     gameState,
 		stopChan:  make(chan bool),
 		result:    nil,
@@ -88,6 +94,10 @@ func (g *Game) Stop() {
 
 func (g *Game) GetResult() *models.GameResult {
 	return g.result
+}
+
+func (g *Game) GetStartTime() time.Time {
+	return g.startTime
 }
 
 func (g *Game) addToLog(message string) {
@@ -165,12 +175,15 @@ func (g *Game) checkForTournamentEnd() bool {
 		// Create game result
 		duration := time.Since(g.startTime)
 		g.result = &models.GameResult{
+			GameID:       g.ID,
 			Winner:       winner,
 			TotalHands:   g.State.HandNumber,
 			AllPlayers:   g.State.Players,
 			Eliminated:   g.State.EliminatedPlayers,
 			FinalChips:   winner.Chips,
 			GameDuration: duration.String(),
+			StartTime:    g.startTime,
+			EndTime:      time.Now(),
 		}
 		
 		g.addToLog(fmt.Sprintf("🏆 TOURNAMENT WINNER: %s wins with $%d! 🏆", winner.Name, winner.Chips))
